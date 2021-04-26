@@ -6,4 +6,47 @@ class Parser():
         self.temp = self.file.readlines()
         self.commands = []
         self.currentCommandIndex = 0
+        self.formatLines()
         
+    
+    def formatLines(self):
+        for line in self.temp:
+            self.commands.append(line.replace("\n", ""))
+
+    
+    def hasMoreCommands(self):
+        return self.currentCommandIndex <= len(self.commands)-1
+
+    
+    def advance(self):
+        if (self.hasMoreCommands()):
+            self.currentCommandIndex += 1
+
+    
+    def getCurrentCommand(self):
+        return self.commands[self.currentCommandIndex]
+
+    
+    def print(self):
+        print(self.commands)
+
+
+    def commandType(self):
+        command = self.getCurrentCommand()
+        split = command.split(" ")
+        foo = split[0]
+
+        if (command in ['add','sub','neg','eq','gt','lt','and','or','not']):
+            return "Arithmetic"
+        
+        else:
+            if   (foo == "pop")       : return "Pop"
+            elif (foo == "push")      : return "Push"
+            elif (foo == "call")      : return "Call"
+            elif (foo == "function")  : return "Function"
+            elif (foo == "return")    : return "Return"
+            elif (foo == "label")     : return "Label"
+            elif (foo == "goto")      : return "Goto"
+            elif (foo == "if-goto")   : return "If"
+
+            else : return None
