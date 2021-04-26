@@ -56,8 +56,27 @@ class CodeWriter:
             self.write("M=M+1")
 
     def writePop(self, segment, index):
-        print("writePop() not implemented yet!")
+        if (segment in ["static", "temp", "pointer"]):
+            self.write("@SP // pop %s %d".format(segment, index))
+            self.write("M=M-1")
+            self.write("A=M")
+            self.write("D=M")
+            self.write("@%s".format(self.getSegmentPointer(segment, index)))
+            self.write("M=D")
+        elif(segment in ["local", "argument", "this", "that"]):
+            self.write("@%s // pop %s %d".format(self.getSegmentPointer(segment, index), segment, index))
+            self.write("D=M")
+            self.write("@%d".format(index))
+            self.write("D=D+A")
+            self.write("@R13")
+            self.write("M=D")
+            self.write("@SP")
+            self.write("M=M-1")
+            self.write("A=M")
+            self.write("D=M")
+            self.write("@R13")
+            self.write("A=M")
+            self.write("M=D")
 
-    
     def close(self):
         self.output.close()
