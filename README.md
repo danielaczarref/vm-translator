@@ -4,7 +4,7 @@
 ## Engenharia da Computação
 ## Disciplina: Compiladores
 ## Prof. Dr. Sérgio Costa
-## Discentes: Daniela Carvalho e André Luiz Almeida
+## Discentes: André Luiz Almeida e Daniela Carvalho
 
 
 
