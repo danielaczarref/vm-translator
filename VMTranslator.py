@@ -20,16 +20,6 @@ while p.hasMoreCommands():
     else:
         print('write "{}" não implementado'.format(tipo))
         p.advance()
-    # try:
-    #     # print(tipo)
-    #     function = switch[tipo]
-    #     if(type in ["Push, Pop"]):
-    #
-    #         function(p.getArg1(), p.getArg2())
-    #
-    # except KeyError as ex:
-    #     print(ex)
-    # finally:
-    #     p.advance()
+
 
 code.close()
