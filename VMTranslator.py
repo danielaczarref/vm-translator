@@ -1,7 +1,7 @@
 from Parser import Parser
 from CodeWriter import CodeWriter
 
-p = Parser("SquareGame/Main.vm")
+p = Parser("SquareGame/Square.vm")
 code = CodeWriter("Main.asm")
 
 
@@ -15,9 +15,10 @@ while p.hasMoreCommands():
         code.writePop(p.getArg1(), p.getArg2())
         p.advance()
     elif(tipo == "Arithmetic"):
+        code.writeArithmetic(p.getArg1())
         p.advance()
     else:
-        print("write {} não implementado")
+        print('write "{}" não implementado'.format(tipo))
         p.advance()
     # try:
     #     # print(tipo)
