@@ -26,19 +26,13 @@ class Parser():
     def getCurrentCommand(self):
         return self.commands[self.currentCommandIndex]
 
-    
-    def print(self):
-        print(self.commands)
-
 
     def commandType(self):
         command = self.getCurrentCommand()
         split = command.split(" ")
         foo = split[0]
-
         if (command in ['add','sub','neg','eq','gt','lt','and','or','not']):
             return "Arithmetic"
-        
         else:
             if   (foo == "pop")       : return "Pop"
             elif (foo == "push")      : return "Push"
@@ -50,3 +44,17 @@ class Parser():
             elif (foo == "if-goto")   : return "If"
 
             else : return None
+
+    def getArg1(self):
+        if(self.commandType() == "Arithmetic"):
+            return self.getCurrentCommand()
+        elif(self.commandType() == "Return"):
+            pass
+        else:
+            return self.getCurrentCommand().split(" ")[1]
+
+    def getArg2(self):
+        if(self.commandType() in ["Push", "Pop", "Function", "Call"]):
+            return self.getCurrentCommand().split(" ")[2]
+        else:
+            return None

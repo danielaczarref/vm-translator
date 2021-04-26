@@ -5,15 +5,12 @@ class CodeWriter:
         self.output = open(outputFileName, "w")
         self.moduleName = outputFileName.split(".")[0]
 
-        print(self.moduleName)
-        # print("pop {} {}".format(replaced, indice), file=self.output)
-
     def getSegmentPointer(self, segment, index):
         if(segment == "local"): return "LCL"
         elif(segment == "argument") : return "ARG"
         elif(segment in ["this", "that"]) : return segment.upper()
-        elif(segment == "temp") : return "R{}".format(5+index)
-        elif(segment == "pointer") : return "R{}".format(3+index)
+        elif(segment == "temp") : return "R{}".format(5+int(index))
+        elif(segment == "pointer") : return "R{}".format(3+int(index))
         elif(segment == "static") : return "{}.{}".format(self.moduleName, index)
         else:
             print("error")
@@ -23,7 +20,8 @@ class CodeWriter:
         print("{}".format(text), file=self.output)
 
     def writeArithmetic (self):
-            print("writeArithmetic() not implemented yet!")
+        pass
+        # print("writeArithmetic() not implemented yet!")
 
     
     def writePush(self, segment, index):
@@ -57,14 +55,14 @@ class CodeWriter:
 
     def writePop(self, segment, index):
         if (segment in ["static", "temp", "pointer"]):
-            self.write("@SP // pop %s %d".format(segment, index))
+            self.write("@SP // pop {} {}".format(segment, index))
             self.write("M=M-1")
             self.write("A=M")
             self.write("D=M")
             self.write("@%s".format(self.getSegmentPointer(segment, index)))
             self.write("M=D")
         elif(segment in ["local", "argument", "this", "that"]):
-            self.write("@%s // pop %s %d".format(self.getSegmentPointer(segment, index), segment, index))
+            self.write("@%s // pop {} {}".format(self.getSegmentPointer(segment, index), segment, index))
             self.write("D=M")
             self.write("@%d".format(index))
             self.write("D=D+A")
