@@ -49,7 +49,7 @@ class Parser():
         if(self.commandType() == "Arithmetic"):
             return self.getCurrentCommand()
         elif(self.commandType() == "Return"):
-            pass
+            return None
         else:
             return self.getCurrentCommand().split(" ")[1]
 

@@ -14,7 +14,7 @@ class CodeWriter:
         elif(segment == "pointer") : return "R{}".format(3+int(index))
         elif(segment == "static") : return "{}.{}".format(self.moduleName, index)
         else:
-            print("error")
+            return 'ERROR'
 
 
     def write(self, text):
@@ -23,44 +23,44 @@ class CodeWriter:
     def writeArithmetic (self, command):
 
         if(command == "add"):
-            self.write("@SP") #binary
+            self.write("@SP //add") #binary
             self.write("AM=M-1")
             self.write("D=M")
             self.write("A=A-1")
             self.write("M=D+M") # add
 
         elif(command == "sub"):
-            self.write("@SP")  # binary
+            self.write("@SP //sub")  # binary
             self.write("AM=M-1")
             self.write("D=M")
             self.write("A=A-1")
-            self.write("M=D-M") #sub
+            self.write("M=M-D") #sub
+        elif (command == "and"):
+            self.write("@SP //and")  # binary
+            self.write("AM=M-1")
+            self.write("D=M")
+            self.write("A=A-1")
+            self.write("M=D&M")  # sub
 
+        elif (command == "or"):
+            self.write("@SP //or")  # binary
+            self.write("AM=M-1")
+            self.write("D=M")
+            self.write("A=A-1")
+            self.write("M=D|M")  #sub # or
         elif(command == "neg"):
-            self.write("@SP") # unary
+            self.write("@SP // NEG")  # unary
             self.write("A=M")
             self.write("A=A-1")
             self.write("M=-M") #neg
-
-        elif (command == "and"):
-            self.write("@SP")  # binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
-            self.write("M=D&M") #and
-
-        elif (command == "or"):
-            self.write("@SP")  # binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
-            self.write("M=D|M") # or
-
         elif (command == "not"):
-            self.write("@SP")  # unary
+            self.write("@SP // NOT")  # unary
             self.write("A=M")
             self.write("A=A-1")
-            self.write("M=!M") # not
+            self.write("M=!M")  # neg
+
+
+
 
         elif (command == "eq"):
             print("write eq not implemented")
@@ -75,23 +75,16 @@ class CodeWriter:
             pass
 
     def writePush(self, segment, index):
+
         if (segment == "constant"):
-            self.write("@{} // push {} {}".format(index, segment, index))
+            self.write("@{} // push constant {}".format(index, index))
             self.write("D=A")
             self.write("@SP")
             self.write("A=M")
             self.write("M=D")
             self.write("@SP")
             self.write("M=M+1")
-        elif(segment in ["static", "temp", "pointer"]):
-            self.write("@{} // push {} {}".format(self.getSegmentPointer(segment, index), segment, index))
-            self.write("D=M")
-            self.write("@SP")
-            self.write("A=M")
-            self.write("M=D")
-            self.write("@SP")
-            self.write("M=M+1")
-        elif(segment in ["local", "argument", "this", "that"]):
+        elif (segment in ["local", "argument", "this", "that"]):
             self.write("@{} // push {} {}".format(self.getSegmentPointer(segment, index), segment, index))
             self.write("D=M")
             self.write("@{}".format(index))
@@ -102,6 +95,26 @@ class CodeWriter:
             self.write("M=D")
             self.write("@SP")
             self.write("M=M+1")
+
+        elif(segment in ["temp", "pointer", "static"]):
+
+                self.write("@{} // push {}  {}".format(self.getSegmentPointer(segment, index), segment, index))
+                self.write("D=M")
+                self.write("@SP")
+                self.write("A=M")
+                self.write("M=D")
+                self.write("@SP")
+                self.write("M=M+1")
+
+        # else: # static
+        #     self.write("@{} // push static {}".format(self.getSegmentPointer(segment, index), index))
+        #     self.write("D=M")
+        #     self.write("@SP")
+        #     self.write("A=M")
+        #     self.write("M=D")
+        #     self.write("@SP")
+
+       #     self.write("M=M+1")
 
     def writePop(self, segment, index):
         if (segment in ["static", "temp", "pointer"]):
@@ -114,6 +127,7 @@ class CodeWriter:
         elif(segment in ["local", "argument", "this", "that"]):
             self.write("@{} // pop {} {}".format(self.getSegmentPointer(segment, index), segment, index))
             self.write("D=M")
+
             self.write("@{}".format(index))
             self.write("D=D+A")
             self.write("@R13")
