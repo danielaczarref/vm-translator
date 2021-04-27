@@ -5,6 +5,8 @@ class CodeWriter:
         self.output = open(outputFileName, "w")
         self.moduleName = outputFileName.split(".")[0]
         self.counter1 = 0
+        self.counter2 = 0
+        self.counter3 = 0
 
     def getSegmentPointer(self, segment, index):
         if(segment == "local"): return "LCL"
@@ -59,17 +61,51 @@ class CodeWriter:
             self.write("A=A-1")
             self.write("M=!M")  # neg
 
-
-
+        elif (command == "gt"):
+            self.write("@GT{}".format(self.counter1))
+            self.write("D;JGT")
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=0")
+            self.write("@GTSTACK{}".format(self.counter1))
+            self.write("0;JMP")
+            self.write("(GT{})".format(self.counter1))
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=-1")
+            self.write("(GTSTACK{})".format(self.counter1))
+            self.counter1 +=1
 
         elif (command == "eq"):
-            print("write eq not implemented")
+            self.write("@EQ{}".format(self.counter2))
+            self.write("D;JEQ")
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=0")
+            self.write("@EQSTACK{}".format(self.counter2))
+            self.write("0;JMP")
+            self.write("(EQ{})".format(self.counter2))
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=-1")
+            self.write("(EQSTACK{})".format(self.counter2))
+            self.counter2 += 1
 
-        elif(command == "gt"):
-            print("write gt not implemented")
 
         elif (command == "lt"):
-            print("write lt not implemented")
+            self.write("@LT{}".format(self.counter3))
+            self.write("D;JLT")
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=0")
+            self.write("@LTSTACK{}".format(self.counter3))
+            self.write("0;JMP")
+            self.write("(LT{})".format(self.counter3))
+            self.write("@SP")
+            self.write("A=M-1")
+            self.write("M=-1")
+            self.write("(LTSTACK{})".format(self.counter3))
+            self.counter3 += 1
 
         else:
             pass

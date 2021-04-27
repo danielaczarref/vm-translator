@@ -1,13 +1,12 @@
 from Parser import Parser
 from CodeWriter import CodeWriter
 
-p = Parser("BasicTest/BasicTest.vm")
-code = CodeWriter("BasicTest/BasicTest.asm")
+p = Parser("StackTest/StackTest.vm")
+code = CodeWriter("StackTest/StackTest.asm")
 
 
 while p.hasMoreCommands():
     tipo = p.commandType()
-    print(p.getCurrentCommand())
 
     if(tipo == "Push"):
         code.writePush(p.getArg1(), p.getArg2())
