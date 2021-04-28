@@ -12,8 +12,8 @@
 
 Para executar o código no terminal (Sistema Operacional Linux), você pode utilizar os seguintes comandos:
 
-- `python VMTranslator.py`
-- `python3 VMTranslator.py`
+- `python VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm `
+- `python3 VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm `
 
 
 
@@ -63,11 +63,9 @@ Esse é o componente que vai gerar o código assembly. Para essa etapa, podemos 
 Passará o arquivo .vm recebido como argumento para o parser. E para cada comando do parser, irá escrever o codigo assembly a partir do CodeWriter.
 
 
-### TODO
+### Avaliação no VM Emulator
 
-- Refazer método `writeArithmetic` do CodeWriter;
-- Refazer método `writePush` do CodeWriter;
-- Refazer método `writePop` do CodeWriter;
+Cada arquivo gerado poderá ser avaliado no software VM Emulator, disponível em: https://www.nand2tetris.org/software
 
 
 
