@@ -3,7 +3,7 @@ class CodeWriter:
 
     def __init__ (self, outputFileName):
         self.output = open(outputFileName, "w")
-        self.moduleName = outputFileName.split(".")[0]
+        self.moduleName = "Bar"#outputFileName.split(".")[0]
         self.counter1 = 0
         self.counter2 = 0
         self.counter3 = 0
@@ -22,46 +22,46 @@ class CodeWriter:
     def write(self, text):
         print("{}".format(text), file=self.output)
 
+    def writeBinary(self):
+        self.write("@SP")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("A=A-1")
+
+    def writeUnary(self):
+        self.write("@SP")
+        self.write("A=M")
+        self.write("A=A-1")
+
     def writeArithmetic (self, command):
 
         if(command == "add"):
-            self.write("@SP //add") #binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
+            self.writeBinary()
             self.write("M=D+M") # add
-
         elif(command == "sub"):
-            self.write("@SP //sub")  # binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
+            self.writeBinary()
             self.write("M=M-D") #sub
         elif (command == "and"):
-            self.write("@SP //and")  # binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
+            self.writeBinary()
             self.write("M=D&M")  # sub
-
         elif (command == "or"):
-            self.write("@SP //or")  # binary
-            self.write("AM=M-1")
-            self.write("D=M")
-            self.write("A=A-1")
+            self.writeBinary()
             self.write("M=D|M")  #sub # or
+
         elif(command == "neg"):
-            self.write("@SP // NEG")  # unary
-            self.write("A=M")
-            self.write("A=A-1")
+            self.writeUnary()
             self.write("M=-M") #neg
         elif (command == "not"):
-            self.write("@SP // NOT")  # unary
-            self.write("A=M")
-            self.write("A=A-1")
+            self.writeUnary()
             self.write("M=!M")  # neg
 
         elif (command == "gt"):
+            self.write("@SP")
+            self.write("AM=M-1")
+            self.write("D=M")
+            self.write("A=A-1")
+            self.write("D=M-D")
+
             self.write("@GT{}".format(self.counter1))
             self.write("D;JGT")
             self.write("@SP")
@@ -77,6 +77,12 @@ class CodeWriter:
             self.counter1 +=1
 
         elif (command == "eq"):
+            self.write("@SP")
+            self.write("AM=M-1")
+            self.write("D=M")
+            self.write("A=A-1")
+            self.write("D=M-D")
+
             self.write("@EQ{}".format(self.counter2))
             self.write("D;JEQ")
             self.write("@SP")
@@ -93,6 +99,12 @@ class CodeWriter:
 
 
         elif (command == "lt"):
+            self.write("@SP")
+            self.write("AM=M-1")
+            self.write("D=M")
+            self.write("A=A-1")
+            self.write("D=M-D")
+
             self.write("@LT{}".format(self.counter3))
             self.write("D;JLT")
             self.write("@SP")

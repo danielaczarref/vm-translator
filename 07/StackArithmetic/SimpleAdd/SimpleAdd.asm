@@ -12,7 +12,7 @@ A=M
 M=D
 @SP
 M=M+1
-@SP //add
+@SP
 AM=M-1
 D=M
 A=A-1

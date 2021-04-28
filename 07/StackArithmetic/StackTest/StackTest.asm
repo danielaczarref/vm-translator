@@ -12,6 +12,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @EQ0
 D;JEQ
 @SP
@@ -38,6 +43,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @EQ1
 D;JEQ
 @SP
@@ -64,6 +74,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @EQ2
 D;JEQ
 @SP
@@ -90,6 +105,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @LT0
 D;JLT
 @SP
@@ -116,6 +136,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @LT1
 D;JLT
 @SP
@@ -142,6 +167,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @LT2
 D;JLT
 @SP
@@ -168,6 +198,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @GT0
 D;JGT
 @SP
@@ -194,6 +229,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @GT1
 D;JGT
 @SP
@@ -220,6 +260,11 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
 @GT2
 D;JGT
 @SP
@@ -253,7 +298,7 @@ A=M
 M=D
 @SP
 M=M+1
-@SP //add
+@SP
 AM=M-1
 D=M
 A=A-1
@@ -265,16 +310,16 @@ A=M
 M=D
 @SP
 M=M+1
-@SP //sub
+@SP
 AM=M-1
 D=M
 A=A-1
 M=M-D
-@SP // NEG
+@SP
 A=M
 A=A-1
 M=-M
-@SP //and
+@SP
 AM=M-1
 D=M
 A=A-1
@@ -286,12 +331,12 @@ A=M
 M=D
 @SP
 M=M+1
-@SP //or
+@SP
 AM=M-1
 D=M
 A=A-1
 M=D|M
-@SP // NOT
+@SP
 A=M
 A=A-1
 M=!M
