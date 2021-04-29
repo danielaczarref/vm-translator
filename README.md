@@ -67,6 +67,23 @@ Passará o arquivo .vm recebido como argumento para o parser. E para cada comand
 
 Cada arquivo gerado poderá ser avaliado no software VM Emulator, disponível em: https://www.nand2tetris.org/software
 
+Após baixar o arquivo zipado e extrai-lo para um diretório, você pode instalar o CPU Emulator através dos comandos:
 
+```
+ln -s ~/nand2tetris/tools/CPUEmulator.sh CPUEmulator
+
+chmod +x CPUEmulator
+
+./CPUEmulator.sh
+```
+
+Um exemplo de teste e avaliação do resultado gerado por ser observado na imagem a seguir, em que a comparação do script foi finalizada com sucesso.
+
+Script utilizado na imagem a seguir foi o de StackTest.asm
+
+![alt text](https://github.com/danielaczarref/vm-translator/blob/master/VMEmulatorTest.png?raw=true)
+
+
+Teste VM Emulator
 
 
