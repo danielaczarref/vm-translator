@@ -7,6 +7,7 @@ class CodeWriter:
         self.counter1 = 0
         self.counter2 = 0
         self.counter3 = 0
+        self.counter4 = 0
 
     def getSegmentPointer(self, segment, index):
         if(segment == "local"): return "LCL"
@@ -32,6 +33,13 @@ class CodeWriter:
         self.write("@SP")
         self.write("A=M")
         self.write("A=A-1")
+
+    def writeInit(self):
+        self.write("@256")
+        self.write("D=A")
+        self.write("@SP")
+        self.write("M=D")
+        self.writeCall("Sys.init", 0)
 
     def writeArithmetic (self, command):
 
@@ -187,6 +195,146 @@ class CodeWriter:
             self.write("@R13")
             self.write("A=M")
             self.write("M=D")
+
+
+    def writeLabel(self, name):
+        self.write("({})".format(name))
+
+    def writeGoto(self, label):
+        self.write("@{}".format(label))
+        self.write("0;JMP")
+
+    def writeIf(self, label):
+        self.write("@SP")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("M=0")
+        self.write("@{}".format(label))
+        self.write("D;JNE")
+
+    def writeFunction(self, funtionName, n):
+        loop = "{}_INIT_LOCALS_LOOP".format(funtionName)
+        endLoop = "{}_INIT_LOCALS_END".format(funtionName)
+
+        self.write("({})".format(funtionName))
+        self.write("@{}".format(n))
+        self.write("D=A")
+        self.write("@R13")
+        self.write("M=D")
+        self.write("({})".format(loop))
+        self.write("@{}".format(endLoop))
+        self.write("D;JEQ")
+        self.write("@0")
+        self.write("D=A")
+        self.write("@SP")
+        self.write("A=M")
+        self.write("M=D")
+        self.write("@SP")
+        self.write("M=M+1")
+        self.write("@R13")
+        self.write("MD=M-1")
+        self.write("@{}".format(loop))
+        self.write("0;JMP")
+        self.write("({})".format(endLoop))
+
+    def writeFramePush(self, value):
+        self.write("@{}".format(value))
+        self.write("D=M")
+        self.write("@SP")
+        self.write("A=M")
+        self.write("M=D")
+        self.write("@SP")
+        self.write("M=M+1")
+
+    def writeCall(self, funcName, n):
+
+        returnAddres = "{}_RETURN_{}".format(funcName, self.counter4)
+        self.counter4 += 1
+
+        self.write("@{}".format(returnAddres))
+        self.write("D=A")
+        self.write("@SP")
+        self.write("A=M")
+        self.write("M=D")
+        self.write("@SP")
+        self.write("M=M+1")
+
+        self.writeFramePush("LCL")
+        self.writeFramePush("ARG")
+        self.writeFramePush("THIS")
+        self.writeFramePush("THAT")
+
+        self.write("@{}".format(n))
+        self.write("D=A")
+        self.write("@5")
+        self.write("D=D+A")
+        self.write("@SP")
+        self.write("D=M-D")
+        self.write("@ARG")
+        self.write("M=D")
+
+        self.write("@SP")
+        self.write("D=M")
+        self.write("@LCL")
+        self.write("M=D")
+
+        self.writeGoto(funcName)
+
+        self.write("({})".format(returnAddres))
+
+
+    def writeReturn(self):
+        self.write("@LCL")
+        self.write("D=M")
+
+        self.write("@R13")
+        self.write("M=D")
+
+        self.write("@5")
+        self.write("A=D-A")
+        self.write("D=M")
+        self.write("@R14")
+        self.write("M=D")
+
+        self.write("@SP")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("@ARG")
+        self.write("A=M")
+        self.write("M=D")
+
+        self.write("D=A")
+        self.write("@SP")
+        self.write("M=D+1")
+
+        self.write("@R13")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("@THAT")
+        self.write("M=D")
+
+        self.write("@R13")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("@THIS")
+        self.write("M=D")
+
+        self.write("@R13")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("@ARG")
+        self.write("M=D")
+
+        self.write("@R13")
+        self.write("AM=M-1")
+        self.write("D=M")
+        self.write("@LCL")
+        self.write("M=D")
+
+        self.write("@R14")
+        self.write("A=M")
+        self.write("0;JMP")
+
 
     def close(self):
         self.output.close()
