@@ -12,15 +12,13 @@
 
 Para executar o código no terminal (Sistema Operacional Linux), você pode utilizar os seguintes comandos:
 
-- `python VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm `
-- `python3 VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm `
-
-
-Você também pode executar todos os arquivos do diretório 07 de uma só vez:
-
-- `python VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm 07/MemoryAccess/PointerTest/PointerTest.vm 07/MemoryAccess/StaticTest/StaticTest.vm 07/StackArithmetic/SimpleAdd/SimpleAdd.vm 07/StackArithmetic/StackTest/StackTest.vm `
-
-- `python3 VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm 07/MemoryAccess/PointerTest/PointerTest.vm 07/MemoryAccess/StaticTest/StaticTest.vm 07/StackArithmetic/SimpleAdd/SimpleAdd.vm 07/StackArithmetic/StackTest/StackTest.vm `
+- Diretório, sem e com o boostrap:
+  - python VMTranslator.py 07/MemoryAccess/BasicTest
+  - python3 VMTranslator.py 07/MemoryAccess/BasicTest -b 
+    
+- Arquivo Único, sem e com o boostrap:
+  - python VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm
+  - python3 VMTranslator.py 07/MemoryAccess/BasicTest/BasicTest.vm -b 
 
 
 
